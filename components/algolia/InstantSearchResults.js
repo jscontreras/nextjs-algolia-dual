@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { ClearRefinements, CurrentRefinements, DynamicWidgets, RangeInput, SortBy, useInstantSearch, useSearchBox } from "react-instantsearch";
 import {
   Hits,
@@ -43,7 +43,7 @@ function CustomSearchBox({ indexId }) {
 function InsightsMiddleware() {
   const { addMiddlewares } = useInstantSearch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     return addMiddlewares(insightsMiddleware);
   }, [addMiddlewares]);
 

@@ -1,6 +1,7 @@
 import { Highlight } from "react-instantsearch";
 import { searchConfig, storeInfoForAfterEvents } from "../../lib/algoliaConfig";
 import singletonRouter from 'next/router';
+import Rating from "./Rating";
 
 export const HitComponent = ({ hit, sendEvent }) => {
   function handleObjectClick(item) {
@@ -21,6 +22,9 @@ export const HitComponent = ({ hit, sendEvent }) => {
     <div className="hit-content">
       <div className="aa-ItemId" onClick={() => handleObjectClick(hit)}>{hit.objectID}</div>
       <div>
+        <Rating value={hit.reviews.rating} />
+      </div>
+      <div>
         <Highlight attribute="name" hit={hit} onClick={() => handleObjectClick(hit)} />
       </div>
       <div className="hit-type">
@@ -30,14 +34,14 @@ export const HitComponent = ({ hit, sendEvent }) => {
         {/* <span> - {hit.rating} stars</span> */}
         <span> - ${hit.price.value}</span>
       </div>
-      <p className='product-actions'>
-        <button className="conversion-btn"
-          onClick={(ev) => {
-            ev.preventDefault();
-            sendEvent('conversion', hit, 'Product Ordered');
-            ev.stopPropagation();
-          }}>Add to cart</button>
-      </p>
     </div>
+    <p className='product-actions'>
+      <button className="conversion-btn"
+        onClick={(ev) => {
+          ev.preventDefault();
+          sendEvent('conversion', hit, 'Product Ordered');
+          ev.stopPropagation();
+        }}>Add to cart</button>
+    </p>
   </div>)
 };

@@ -115,7 +115,7 @@ nav {
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    transform: scale(.8);
+    transform: scale(0.8);
     transform-origin: top right;
     span {
       margin: 10px;
@@ -143,6 +143,7 @@ nav {
     padding: 10px 0;
     justify-content: space-evenly;
     flex-direction: column;
+    text-align: center;
 
     &-actions {
       display: flex;
@@ -185,6 +186,7 @@ nav {
     max-width: 240px;
     min-width: 220px;
     flex-shrink: 0;
+    justify-content: center;
   }
   .ais-Hits-list {
     display: flex;
@@ -201,11 +203,13 @@ nav {
 
   .product-actions {
     position: absolute;
-    bottom: 15px;
-    width: fit-content;
+    bottom: 20px;
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
-    width: 130px;
     height: 40px;
+    display: flex;
+    justify-content: center;
 
     .conversion-btn {
       background-color: rgba(96, 185, 225, 0.671);
