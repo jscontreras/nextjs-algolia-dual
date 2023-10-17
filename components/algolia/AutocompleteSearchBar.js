@@ -1,5 +1,6 @@
 import {
   autocomplete,
+  getAlgoliaFacets,
   getAlgoliaResults,
 } from "@algolia/autocomplete-js";
 
@@ -9,12 +10,14 @@ import { createQuerySuggestionsPlugin } from "@algolia/autocomplete-plugin-query
 import "@algolia/autocomplete-theme-classic";
 import { ProductItem } from "./ProductItem";
 import { createAlgoliaInsightsPlugin } from "@algolia/autocomplete-plugin-algolia-insights";
-import { getQueryParam, updateUrlParameter } from "../../lib/common";
+import { friendlyCategoryName, getQueryParam, updateUrlParameter } from "../../lib/common";
 import { createRoot } from 'react-dom/client';
 import { searchConfig, insightsClient, searchClient, pubsub, QUERY_UPDATE_EVT } from "../../lib/algoliaConfig";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 let router = [];
+let facetsOverride = [];
 
 // Recent Search Plugin
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -113,6 +116,7 @@ export function AutocompleteSearchBar() {
       ],
       getSources({ query }) {
         return [
+          // Get products
           {
             sourceId: "products",
             getItems() {
@@ -125,11 +129,28 @@ export function AutocompleteSearchBar() {
                     query,
                     params: {
                       hitsPerPage: 3,
-                      analyticsTags: ['web-autocomplete']
+                      analyticsTags: ['web-autocomplete'],
+                      // Adding facets for pinning categories section w/round
+                      facets: ['hierarchical_categories.lvl2'],
                     },
                   },
                 ],
               });
+            },
+            transformResponse({ hits, results }) {
+              try {
+                const ruledFacets = results[0].renderingContent.facetOrdering.values['hierarchical_categories.lvl2'].order;
+                facetsOverride = ruledFacets.map(rfacet => {
+                  return {
+                    label: friendlyCategoryName(rfacet),
+                    count: 0,
+                    value: rfacet,
+                  }
+                })
+              } catch {
+                facetsOverride = null;
+              }
+              return hits;
             },
             templates: {
               item({ item, components }) {
@@ -146,6 +167,58 @@ export function AutocompleteSearchBar() {
               },
             },
           },
+          // Categories
+          {
+            sourceId: `${searchConfig.recordsIndex}--facets`,
+            getItems({ query }) {
+              return getAlgoliaFacets({
+                searchClient,
+                queries: [
+                  {
+                    indexName: searchConfig.recordsIndex,
+                    facet: 'hierarchical_categories.lvl2',
+                    params: {
+                      facetQuery: query,
+                      maxFacetHits: 5,
+                      analyticsTags: ['web-autocomplete'],
+                      ruleContexts: ['web-autocomplete'],
+                    },
+                  },
+                ],
+                transformResponse({ facetHits }) {
+                  // If a returned modified by ruled occurred then return it
+                  if (facetsOverride && facetsOverride.length > 0 ) {
+                    return facetsOverride;
+                  }
+
+                  // Making it easier to read
+                  return facetHits.map(fhArray => {
+                    return fhArray.map(fh => ({ ...fh, label: friendlyCategoryName(fh.label) }))
+                  });
+                }
+              });
+            },
+            templates: {
+              header() {
+                return (
+                  <Fragment>
+                    <span className="aa-SourceHeaderTitle">Products Categories</span>
+                    <div className="aa-SourceHeaderLine" />
+                  </Fragment>
+                );
+              },
+              item({ item }) {
+                // extract the id split(:)
+                const parts = [item.label];
+                // build URL and onClick
+                const url = searchConfig.categoryPlpPathPrefix + '/' + parts[0].replace(/ > /g, '/').toLowerCase().replace(/\s/g, '-').replace(/&-/g, '');
+
+                return (
+                  <div><Link href={url}>{friendlyCategoryName(parts[0])}</Link></div>
+                );
+              }
+            }
+          }
         ];
       },
     });
