@@ -37,6 +37,23 @@ function CustomSearchBox({ indexId }) {
 }
 
 /**
+ * Returns the hierarchical menu
+ * @param {*} extraSearchParams
+ * @returns
+ */
+function calculateRoot(extraSearchParams) {
+  const filter = extraSearchParams.filters ? extraSearchParams.filters.replace('category_page_id:', '').replace(/'/g, '') : null;
+  if (filter) {
+    const parts = filter.split(' > ');
+    if (parts.length >= 1) {
+      return parts[0];
+    }
+    return filter;
+  }
+  return filter;
+}
+
+/**
  * Main InstantSearch results component (receives query from Autocomplete Search Bar).
  */
 export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
@@ -91,6 +108,7 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
                 ]}
                 separator=" > "
                 showMore={true}
+                rootPath={calculateRoot(extraSearchParams)}
               />
               <FacetWidgetPanel attribute={"price.value"}>
                 <RangeInput attribute="price.value" />
