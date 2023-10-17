@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { ClearRefinements, CurrentRefinements, DynamicWidgets, RangeInput, SortBy, useInstantSearch, useSearchBox } from "react-instantsearch";
+import { useMemo } from "react";
+import { ClearRefinements, CurrentRefinements, DynamicWidgets, RangeInput, SortBy, useSearchBox } from "react-instantsearch";
 import {
   Hits,
   Configure,
@@ -11,7 +11,7 @@ import {
 import "instantsearch.css/themes/reset.css";
 // or include the full Satellite theme
 import "instantsearch.css/themes/satellite.css";
-import { QUERY_UPDATE_EVT, insightsMiddleware, pubsub, searchClient, searchConfig } from "../../lib/algoliaConfig";
+import { QUERY_UPDATE_EVT, insightsConfig, pubsub, searchClient, searchConfig } from "../../lib/algoliaConfig";
 import { HitComponent } from "./HitComponent";
 import { CategoryPageSuggestions } from "./CategoryPageSuggestions";
 import { RatingMenu } from "./RatingMenu";
@@ -34,20 +34,6 @@ function CustomSearchBox({ indexId }) {
   }, [indexId]);
 
   return <></>;
-}
-
-/**
- * Insights Middleware
- * @returns
- */
-function InsightsMiddleware() {
-  const { addMiddlewares } = useInstantSearch();
-
-  useEffect(() => {
-    return addMiddlewares(insightsMiddleware);
-  }, [addMiddlewares]);
-
-  return null;
 }
 
 /**
@@ -87,7 +73,7 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
       <InstantSearch
         searchClient={searchClientMod}
         indexName={searchConfig.recordsIndex}
-        //routing={customRouter}
+        insights={{insightsConfig}}
         routing={routing}
       >
         <Configure {...extraSearchParams} hitsPerPage={24} analyticsTags={['web-search']} />
@@ -136,7 +122,6 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
             <Pagination />
           </div>
         </main>
-        <InsightsMiddleware />
       </InstantSearch>
     </div>
   );
