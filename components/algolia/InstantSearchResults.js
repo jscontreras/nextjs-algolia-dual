@@ -73,7 +73,7 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
       <InstantSearch
         searchClient={searchClientMod}
         indexName={searchConfig.recordsIndex}
-        insights={{insightsConfig}}
+        insights={insightsConfig}
         routing={routing}
       >
         <Configure {...extraSearchParams} hitsPerPage={24} analyticsTags={['web-search']} />
