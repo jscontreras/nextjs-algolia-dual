@@ -27,11 +27,24 @@ function ProductDetailPage({ hit }) {
   const handleConvertionAfterSearch = () => {
     const storedInfo = getInfoForAfterEvents();
     if (storedInfo && storedInfo.queryId) {
-      insightsClient('convertedObjectIDsAfterSearch', {
+      insightsClient('addedToCartObjectIDsAfterSearch', {
         index: storedInfo.indexName,
         eventName: 'pdp_add_to_cart',
         queryID: storedInfo.queryId,
-        objectIDs: storedInfo.objectIDs
+        objectIDs: storedInfo.objectIDs,
+        objectData: [
+          {
+            // The discount value for this item, if applicable
+            discount: hit.discount || 0,
+            // The price value for this item (minus the discount)
+            price: hit.price.value,
+            // How many of this item were added
+            quantity: 2,
+          },
+        ],
+        // The total value of all items
+        value: hit.price.value * 2,
+        currency: 'USD',
       });
     }
   }

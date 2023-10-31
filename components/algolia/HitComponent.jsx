@@ -39,7 +39,26 @@ export const HitComponent = ({ hit, sendEvent }) => {
       <button className="conversion-btn"
         onClick={(ev) => {
           ev.preventDefault();
-          sendEvent('conversion', hit, 'Product Ordered');
+          // sendEvent('conversion', hit, 'Product Ordered');
+          sendEvent('conversion', hit, 'Added To Cart', {
+            // Special subtype
+            eventSubtype: 'addToCart',
+            // An array of objects representing each item added to the cart
+            objectData: [
+              {
+                // The discount value for this item, if applicable
+                discount: hit.discount || 0,
+                // The price value for this item (minus the discount)
+                price: hit.price.value,
+                // How many of this item were added
+                quantity: 2,
+              },
+            ],
+            // The total value of all items
+            value: hit.price * 2,
+            // The currency code
+            currency: 'USD',
+          })
           ev.stopPropagation();
         }}>Add to cart</button>
     </p>
