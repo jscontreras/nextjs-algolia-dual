@@ -83,7 +83,17 @@ export function AutocompleteSearchBar() {
   });
 
   // This Plugin has more options in case you want to forward events to GA4 etc.
-  const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient: insightsClient })
+  const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({
+    insightsClient: insightsClient, onItemsChange(params) {
+      const { insightsEvents, state } = params;
+      insightsClient('sendEvents', insightsEvents);
+      // Detect view event.
+      const viewEvent = insightsEvents.find((inEvent) => inEvent.eventName == 'Items Viewed');
+      if (viewEvent) {
+          console.log('view Event detected', viewEvent, state.query);
+      }
+    }
+  })
 
   // Rendering autocomplete after component mounts
   useEffect(() => {
@@ -187,7 +197,7 @@ export function AutocompleteSearchBar() {
                 ],
                 transformResponse({ facetHits }) {
                   // If a returned modified by ruled occurred then return it
-                  if (facetsOverride && facetsOverride.length > 0 ) {
+                  if (facetsOverride && facetsOverride.length > 0) {
                     return facetsOverride;
                   }
 
