@@ -31,7 +31,7 @@ function Rating({ value }) {
     );
   });
 
-  return <div>{stars}</div>;
+  return <div className = "flex flex-row">{stars}</div>;
 }
 
 export default Rating;

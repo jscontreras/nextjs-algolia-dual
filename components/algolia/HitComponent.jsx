@@ -15,17 +15,17 @@ export const HitComponent = ({ hit, sendEvent }) => {
       singletonRouter.push(`${searchConfig.productPdpPathPrefix}/${item.slug}/${item.objectID}`)
     }
   }
-  return (<div className="hit">
-    <div className="hit-picture" onClick={() => handleObjectClick(hit)}>
+  return (<div className="hit" onClick={() => handleObjectClick(hit)}>
+    <div className="hit-picture">
       <img src={`${hit.image_urls[0]}`} alt={hit.name} width={100} height={100} />
     </div>
     <div className="hit-content">
-      <div className="aa-ItemId" onClick={() => handleObjectClick(hit)}>{hit.objectID}</div>
+      <div className="aa-ItemId">{hit.objectID}</div>
       <div>
         <Rating value={hit.reviews.rating} />
       </div>
       <div>
-        <Highlight attribute="name" hit={hit} onClick={() => handleObjectClick(hit)} />
+        <Highlight attribute="name" hit={hit} />
       </div>
       <div className="hit-type">
         <Highlight attribute="type" hit={hit} />

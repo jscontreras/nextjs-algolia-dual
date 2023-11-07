@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "./algolia.scss";
 
 * {
@@ -75,6 +79,9 @@
   .conversion-btn {
     margin-top: 10px;
     background-color: orange;
+    &.buy-now-btn {
+      background-color: aquamarine;
+    }
   }
 }
 footer {

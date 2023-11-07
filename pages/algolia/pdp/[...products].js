@@ -24,7 +24,7 @@ export async function getServerSideProps({ query }) {
  */
 function ProductDetailPage({ hit }) {
 
-  const handleConvertionAfterSearch = () => {
+  const handleAddToCartAfterSearch = () => {
     const storedInfo = getInfoForAfterEvents();
     if (storedInfo && storedInfo.queryId) {
       insightsClient('addedToCartObjectIDsAfterSearch', {
@@ -44,6 +44,32 @@ function ProductDetailPage({ hit }) {
         ],
         // The total value of all items
         value: hit.price.value * 2,
+        currency: 'USD',
+      });
+    }
+  }
+
+  const handlePurchaseAfterSearch = () => {
+    const storedInfo = getInfoForAfterEvents();
+    if (storedInfo && storedInfo.queryId) {
+      insightsClient('purchasedObjectIDsAfterSearch', {
+        index: storedInfo.indexName,
+        eventName: 'pdp_buy_now',
+        objectIDs: storedInfo.objectIDs,
+        objectData: [
+          {
+            // The discount value for this item, if applicable
+            discount: hit.discount || 0,
+            // The price value for this item (minus the discount)
+            price: hit.price.value,
+            // The query ID
+            queryID: storedInfo.queryId,
+            // How many of this item were added
+            quantity: 1,
+          },
+        ],
+        // The total value of all items
+        value: hit.price.value * 1,
         currency: 'USD',
       });
     }
@@ -87,9 +113,15 @@ function ProductDetailPage({ hit }) {
           </div>
           <p className='product-actions'>
             <button className="conversion-btn"
-              onClick={(ev) => {
-                handleConvertionAfterSearch();
+              onClick={() => {
+                handleAddToCartAfterSearch();
               }}>Add to cart</button>
+          </p>
+          <p className='product-actions'>
+            <button className="conversion-btn buy-now-btn"
+              onClick={() => {
+                handlePurchaseAfterSearch();
+              }}>Buy now</button>
           </p>
         </div>
       </div>

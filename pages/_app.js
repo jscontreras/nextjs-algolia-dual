@@ -7,7 +7,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Next.js Prototype</title>
+        <title>Next.js Algolia Prototype</title>
       </Head>
       <Layout>
         <Component {...pageProps} />

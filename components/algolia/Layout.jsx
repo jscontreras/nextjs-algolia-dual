@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AutocompleteSearchBar } from "./AutocompleteSearchBar";
+import CartIcon from "./CartIcon";
 
 /**
  * Main Layout
@@ -12,6 +13,7 @@ const Layout = ({ children }) => {
       <Link href="/" className="home-link">
         {"⌂ Home"}
       </Link>
+      <CartIcon />
       <header>
         <AutocompleteSearchBar />
       </header>
