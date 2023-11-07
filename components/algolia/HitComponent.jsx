@@ -2,6 +2,7 @@ import { Highlight } from "react-instantsearch";
 import { searchConfig, storeInfoForAfterEvents } from "../../lib/algoliaConfig";
 import singletonRouter from 'next/router';
 import Rating from "./Rating";
+import { addProductToLocalStorageCart } from "../../lib/common";
 
 export const HitComponent = ({ hit, sendEvent }) => {
   function handleObjectClick(item) {
@@ -51,14 +52,15 @@ export const HitComponent = ({ hit, sendEvent }) => {
                 // The price value for this item (minus the discount)
                 price: hit.price.value,
                 // How many of this item were added
-                quantity: 2,
+                quantity: 1,
               },
             ],
             // The total value of all items
-            value: hit.price * 2,
+            value: hit.price * 1,
             // The currency code
             currency: 'USD',
-          })
+          });
+          addProductToLocalStorageCart(hit);
           ev.stopPropagation();
         }}>Add to cart</button>
     </p>

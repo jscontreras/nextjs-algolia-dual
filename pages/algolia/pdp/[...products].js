@@ -1,6 +1,7 @@
 import { getInfoForAfterEvents, insightsClient, searchClient, searchConfig } from "../../../lib/algoliaConfig";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { addProductToLocalStorageCart } from "../../../lib/common";
 
 export async function getServerSideProps({ query }) {
   const { products } = query;
@@ -47,6 +48,7 @@ function ProductDetailPage({ hit }) {
         currency: 'USD',
       });
     }
+    addProductToLocalStorageCart(hit);
   }
 
   const handlePurchaseAfterSearch = () => {
