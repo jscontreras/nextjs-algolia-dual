@@ -90,8 +90,9 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
       <InstantSearch
         searchClient={searchClientMod}
         indexName={searchConfig.recordsIndex}
-        insights={insightsConfig}
         routing={routing}
+        // Avoid memory leak
+        insights={typeof window !== 'undefined' ? insightsConfig : false}
       >
         <Configure {...extraSearchParams} hitsPerPage={24} analyticsTags={['web-search']} />
         <CustomSearchBox indexId={searchConfig.recordsIndex} />
@@ -121,10 +122,10 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
             </DynamicWidgets>
           </div>
           <div className="results">
-          <div className="ais-sort-by">
-            <span>Sort By:</span>
-            <SortBy items={searchConfig.sortByIndices} />
-          </div>
+            <div className="ais-sort-by">
+              <span>Sort By:</span>
+              <SortBy items={searchConfig.sortByIndices} />
+            </div>
             <div className="refinements-container">
               <CurrentRefinements transformItems={(items) => {
                 return items.map((item) => {
