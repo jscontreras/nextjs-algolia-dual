@@ -6,17 +6,24 @@ import { InstantSearchSSRProvider, getServerState } from 'react-instantsearch';
 import { renderToString } from 'react-dom/server';
 import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-router-nextjs';
-import { routerOptions } from "../../lib/algoliaConfig";
+import { searchConfig } from "../../lib/algoliaConfig";
+import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
 
 /**
  * Main Page Prototype.
  * @returns
  */
 export default function SearchPage({ serverState, serverUrl }) {
+  const routing = {
+    stateMapping: singleIndex(searchConfig.recordsIndex),
+    router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
+  };
+
   return <div className="page_container">
     <InstantSearchSSRProvider {...serverState}>
       <InstantSearchResults
-        routing={{ router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions }) }}
+        // routing={{ router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions }) }}
+        routing={routing}
         />
     </InstantSearchSSRProvider>
   </div>

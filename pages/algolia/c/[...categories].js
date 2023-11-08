@@ -6,20 +6,26 @@ import { renderToString } from 'react-dom/server';
 import { InstantSearchResults } from "../../../components/algolia/InstantSearchResults";
 import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-router-nextjs';
-import { routerOptions } from "../../../lib/algoliaConfig";
+import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
 
 /**
  * Main Page Prototype.
  * @returns
  */
 export default function Category({ serverState, serverUrl, extraSearchParams }) {
+
+  const routing = {
+    stateMapping: singleIndex(searchConfig.recordsIndex),
+    router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
+  };
+
   return <div className="page_container">
     <InstantSearchSSRProvider {...serverState}>
       <header>
         <h2 className="category-title"> Category Page: {`[${extraSearchParams.filters}] `}</h2>
       </header>
       <InstantSearchResults
-        routing={{ router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions }) }}
+        routing={routing}
         extraSearchParams={extraSearchParams}
       />
     </InstantSearchSSRProvider>
