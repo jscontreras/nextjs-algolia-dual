@@ -13,7 +13,7 @@ import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
  * Main Page Prototype.
  * @returns
  */
-export default function SearchPage({ serverState, serverUrl }) {
+export default function SearchPage({ serverState, serverUrl, extraSearchParams }) {
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
     router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
@@ -24,6 +24,7 @@ export default function SearchPage({ serverState, serverUrl }) {
       <InstantSearchResults
         // routing={{ router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions }) }}
         routing={routing}
+        extraSearchParams={extraSearchParams}
         />
     </InstantSearchSSRProvider>
   </div>
@@ -45,13 +46,15 @@ export async function getServerSideProps({ req, res }) {
     clientUserToken = 's__' + crypto.randomUUID();
     res.setHeader('Set-Cookie', `_ALGOLIA=${clientUserToken}; Path=/;`)
   }
+  const extraSearchParams = { userToken: clientUserToken };
 
-  const serverState = await getServerState(<SearchPage serverUrl={serverUrl} />, { renderToString });
+  const serverState = await getServerState(<SearchPage extraSearchParams={extraSearchParams} serverUrl={serverUrl} />, { renderToString });
 
   return {
     props: {
       serverState,
       serverUrl,
+      extraSearchParams
     },
   };
 }

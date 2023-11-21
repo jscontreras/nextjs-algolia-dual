@@ -7,6 +7,7 @@ import { InstantSearchResults } from "../../../components/algolia/InstantSearchR
 import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-router-nextjs';
 import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
+import { searchConfig } from "../../../lib/algoliaConfig";
 
 /**
  * Main Page Prototype.
@@ -43,8 +44,6 @@ export async function getServerSideProps({ req, query, res }) {
   const { categories } = query;
   const categoryPageIdFilter = categories.map((str) => (str.charAt(0).toUpperCase() + str.slice(1))).join(" > ");
   const filters = `category_page_id:'${categoryPageIdFilter}'`;
-  const extraSearchParams = { filters: filters };
-  const serverState = await getServerState(<Category serverUrl={serverUrl} extraSearchParams={extraSearchParams} />, { renderToString });
 
   // Calculate user-token via server
   let clientUserToken = req.cookies._ALGOLIA || null;
@@ -53,6 +52,9 @@ export async function getServerSideProps({ req, query, res }) {
     clientUserToken = 's__' + crypto.randomUUID();
     res.setHeader('Set-Cookie', `_ALGOLIA=${clientUserToken}; Path=/;`)
   }
+
+  const extraSearchParams = { filters: filters, userToken: clientUserToken };
+  const serverState = await getServerState(<Category serverUrl={serverUrl} extraSearchParams={extraSearchParams} />, { renderToString });
 
   return {
     props: {
