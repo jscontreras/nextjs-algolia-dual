@@ -109,7 +109,7 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
                 ]}
                 separator=" > "
                 showMore={true}
-                rootPath={calculateRoot(extraSearchParams)}
+                // rootPath={calculateRoot(extraSearchParams)}
               />
               <FacetWidgetPanel attribute={"price.value"}>
                 <RangeInput attribute="price.value" />
