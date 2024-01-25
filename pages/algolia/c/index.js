@@ -13,7 +13,9 @@ import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
  * Main Page Prototype.
  * @returns
  */
-export default function SearchPage({ serverState, serverUrl, extraSearchParams }) {
+export default function SearchPage({ serverState, serverUrl, extraSearchParams, resolvedUrl }) {
+  console.log('<resolvedUrl>', resolvedUrl);
+
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
     router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
@@ -35,7 +37,7 @@ export default function SearchPage({ serverState, serverUrl, extraSearchParams }
  * @param {*} param0
  * @returns
  */
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, resolvedUrl }) {
   const protocol = req.headers.referer?.split('://')[0] || 'https';
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
 
@@ -54,7 +56,8 @@ export async function getServerSideProps({ req, res }) {
     props: {
       serverState,
       serverUrl,
-      extraSearchParams
+      extraSearchParams,
+      resolvedUrl
     },
   };
 }

@@ -13,8 +13,8 @@ import { searchConfig } from "../../../lib/algoliaConfig";
  * Main Page Prototype.
  * @returns
  */
-export default function Category({ serverState, serverUrl, extraSearchParams }) {
-
+export default function Category({ serverState, serverUrl, extraSearchParams, resolvedUrl }) {
+  console.log('<resolvedUrl>', resolvedUrl);
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
     router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions: {
@@ -40,8 +40,7 @@ export default function Category({ serverState, serverUrl, extraSearchParams }) 
  * @param {*} param0
  * @returns
  */
-export async function getServerSideProps({ req, query, res }) {
-  console.log('req', query);
+export async function getServerSideProps({ req, query, res, resolvedUrl }) {
   const protocol = req.headers.referer?.split('://')[0] || 'https';
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
   const { categories } = query;
@@ -64,6 +63,8 @@ export async function getServerSideProps({ req, query, res }) {
       serverState,
       serverUrl,
       extraSearchParams,
+      serverUrl,
+      resolvedUrl
     },
   };
 }
