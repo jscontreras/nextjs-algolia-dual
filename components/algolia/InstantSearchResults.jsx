@@ -93,8 +93,12 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
         routing={routing}
         // Avoid memory leak
         insights={typeof window !== 'undefined' ? insightsConfig : false}
+        // https://www.algolia.com/doc/api-reference/widgets/history-router/js/?client=react#widget-param-cleanurlondispose
+        future={{
+          preserveSharedStateOnUnmount: true,
+        }}
       >
-        <Configure {...extraSearchParams} hitsPerPage={24} analyticsTags={['web-search']} />
+        <Configure {...extraSearchParams} hitsPerPage={24} analyticsTags={['web-search']} maxValuesPerFacet={500} />
         <CustomSearchBox indexId={searchConfig.recordsIndex} />
         <CategoryPageSuggestions router={routing} />
         <main>
@@ -109,7 +113,7 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
                 ]}
                 separator=" > "
                 showMore={true}
-                // rootPath={calculateRoot(extraSearchParams)}
+              // rootPath={calculateRoot(extraSearchParams)}
               />
               <FacetWidgetPanel attribute={"price.value"}>
                 <RangeInput attribute="price.value" />

@@ -17,7 +17,9 @@ export default function Category({ serverState, serverUrl, extraSearchParams }) 
 
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
-    router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
+    router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions: {
+      cleanUrlOnDispose: false
+    } }),
   };
 
   return <div className="page_container">
@@ -39,6 +41,7 @@ export default function Category({ serverState, serverUrl, extraSearchParams }) 
  * @returns
  */
 export async function getServerSideProps({ req, query, res }) {
+  console.log('req', query);
   const protocol = req.headers.referer?.split('://')[0] || 'https';
   const serverUrl = `${protocol}://${req.headers.host}${req.url}`;
   const { categories } = query;

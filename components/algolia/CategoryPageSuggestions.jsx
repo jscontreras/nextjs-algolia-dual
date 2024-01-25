@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRefinementList } from "react-instantsearch";
 import { searchConfig } from "../../lib/algoliaConfig";
+import { useEffect, useState } from "react";
 
 /**
  * Count occurrences of a substring in a str.
@@ -29,6 +30,9 @@ function replaceAll(str, search, replacement) {
  * @returns
  */
 export function CategoryPageSuggestions() {
+
+  const [prefix, setPrefix] =  useState(searchConfig.categoryPlpPathPrefix);
+
   const {
     items,
     refine
@@ -39,18 +43,16 @@ export function CategoryPageSuggestions() {
     return compare;
   }).slice(0, 5);
 
-  // return (<div className="category-pages-btn">
-  //   {finalItems.map((item) => {
-  //     const url = `/algolia/c/${replaceAll(item.value, ' > ', '/')}`;
-  //     return <li key={item.value} href={url}><button key={item.value} onClick={()=> {
-  //       refine(item.value);
-  //     }}>{item.label}</button></li>
-  //   })}
-  // </div>)
+  useEffect(()=>{
+    if (window.location.pathname.startsWith('/catalog')) {
+      setPrefix('/catalog')
+    }
+  }, [[prefix]])
+
 
   return (<div className="category-pages-btn">
     {finalItems.map((item) => {
-      const url = `${searchConfig.categoryPlpPathPrefix}/${replaceAll(item.value, ' > ', '/')}`;
+      const url = `${prefix}/${replaceAll(item.value, ' > ', '/')}`;
       return <Link key={item.value} href={url}><button key={item.value}>{item.label}</button></Link>
     })}
   </div>)
