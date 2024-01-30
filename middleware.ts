@@ -10,7 +10,7 @@ export function middleware(request) {
   // if the origin is an allowed one,
   // add it to the 'Access-Control-Allow-Origin' header
   if (!origin) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+    return NextResponse.json({ error: 'Unauthorized request' }, { status: 403 })
   }
   return res
 }
