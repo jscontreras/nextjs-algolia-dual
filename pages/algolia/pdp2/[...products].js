@@ -10,14 +10,16 @@ export async function getServerSideProps({ query, req }) {
   const protocol = req.headers.referer?.split('://')[0] || 'http';
   const serverUrl = `${protocol}://${req.headers.host}`;
   // Call server action
+  const body = JSON.stringify({
+    objectId
+  });
   const productPayload = await fetch(`${serverUrl}/api/pdp`, {
     method: 'POST',
-    body: JSON.stringify({
-      objectId
-    }),
+    body,
     headers: {
       "content-type": "application/json",
       "origin": serverUrl,
+      'Content-Length': body.length
     },
   });
 
