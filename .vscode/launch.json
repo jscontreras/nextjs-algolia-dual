@@ -6,7 +6,7 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "yarn",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": [
         "dev"
       ],

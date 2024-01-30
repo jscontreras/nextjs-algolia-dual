@@ -3,14 +3,25 @@ import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { addProductToLocalStorageCart } from "../../../lib/common";
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query, req }) {
   const { products } = query;
   const objectId = products.pop();
+  //const product = await getProductInfo(objectId);
+  const protocol = req.headers.referer?.split('://')[0] || 'https';
+  const serverUrl = `${protocol}://${req.headers.host}`;
+  // Call server action
+  const productPayload = await fetch(`${serverUrl}/api/pdp`, {
+    method: 'POST',
+    body: JSON.stringify({
+      objectId
+    }),
+    headers: {
+      "content-type": "application/json",
+      "origin": serverUrl,
+    },
+  });
 
-  const index = searchClient.initIndex(searchConfig.recordsIndex);
-  const product = await index.getObject(objectId);
-
-
+  const product = await productPayload.json();
   return {
     props: {
       hit: product
@@ -94,7 +105,7 @@ function ProductDetailPage({ hit }) {
     <>
       <div className="pdp-hit">
         <div className="pdp-hit-content">
-         <div>
+          <div>
             <h1>{hit.name}</h1>
           </div>
           <div className="pdp-hit-pictures">

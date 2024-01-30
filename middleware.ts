@@ -1,9 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/catalog')) {
-    let p = request.nextUrl.pathname.replace('/catalog', '/algolia/c');
-    const newUrl = new URL(p, request.url);
-    return NextResponse.rewrite(newUrl);
+export function middleware(request) {
+  const requestHeaders = new Headers(request.headers)
+  const res = NextResponse.next()
+
+  // retrieve the HTTP "Origin" header
+  // from the incoming request
+  const origin = requestHeaders.get("origin");
+  // if the origin is an allowed one,
+  // add it to the 'Access-Control-Allow-Origin' header
+  if (!origin) {
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }
+  return res
+}
+
+// specify the path regex to apply the middleware to
+export const config = {
+  matcher: '/api/:path*',
 }

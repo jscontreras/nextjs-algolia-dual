@@ -1,3 +1,5 @@
+"use client";
+
 import { Highlight } from "react-instantsearch";
 import { searchConfig, storeInfoForAfterEvents } from "../../lib/algoliaConfig";
 import singletonRouter from 'next/router';
