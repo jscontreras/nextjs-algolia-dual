@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request) {
   const requestHeaders = new Headers(request.headers)
-  const res = NextResponse.next()
 
   // retrieve the HTTP "Origin" header
   // from the incoming request
@@ -12,7 +11,7 @@ export function middleware(request) {
   if (!origin) {
     return NextResponse.json({ error: 'Unauthorized request' }, { status: 403 })
   }
-  return res
+  return NextResponse.next();
 }
 
 // specify the path regex to apply the middleware to

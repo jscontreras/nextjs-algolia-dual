@@ -9,7 +9,7 @@ export async function getServerSideProps({ query }) {
 
   const index = searchClient.initIndex(searchConfig.recordsIndex);
   const product = await index.getObject(objectId);
-
+  console.log('>>>FETCHING PRODUCT PDP1', objectId);
 
   return {
     props: {

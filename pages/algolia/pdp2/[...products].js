@@ -7,7 +7,7 @@ export async function getServerSideProps({ query, req }) {
   const { products } = query;
   const objectId = products.pop();
   //const product = await getProductInfo(objectId);
-  const protocol = req.headers.referer?.split('://')[0] || 'https';
+  const protocol = req.headers.referer?.split('://')[0] || 'http';
   const serverUrl = `${protocol}://${req.headers.host}`;
   // Call server action
   const productPayload = await fetch(`${serverUrl}/api/pdp`, {
