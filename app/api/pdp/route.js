@@ -1,4 +1,5 @@
-import { get } from "https";
+export const fetchCache = 'auto'
+
 import { getProductInfo } from "../../../lib/serverActions";
 
 export async function GET() {
@@ -15,16 +16,9 @@ export async function POST(req) {
     // This is cached by objectId
     const product = await getProductInfo(data.objectId);
     return Response.json(product);
-  } catch (err){
+  } catch (err) {
     console.error(err);
     const product = await getProductInfo('M0E20000000EAAK');
-    return Response.json({ message: 'Hello World!', product }).status(200);
-  }
-
-}
-
-export const config = {
-  api: {
-    responseLimit: '6mb'
+    return Response.json({ message: 'Hello World!', product });
   }
 }
