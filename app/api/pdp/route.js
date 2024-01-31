@@ -2,23 +2,10 @@ export const fetchCache = 'auto'
 
 import { getProductInfo } from "../../../lib/serverActions";
 
-export async function GET() {
-  const product = await getProductInfo('M0E20000000EAAK');
-  return Response.json({ message: 'Hello World!', product });
+export async function GET(request) {
+  const { searchParams } = new URL(request.url)
+  const objectId = searchParams.get('objectId');
+  const product = await getProductInfo(objectId ? objectId : "M0E20000000E2QT");
+  return Response.json(product);
 }
 
-/***
- * Using uncached by default.
- */
-export async function POST(req) {
-  try {
-    const data = await req.json();
-    // This is cached by objectId
-    const product = await getProductInfo(data.objectId);
-    return Response.json(product);
-  } catch (err) {
-    console.error(err);
-    const product = await getProductInfo('M0E20000000EAAK');
-    return Response.json({ message: 'Hello World!', product });
-  }
-}
