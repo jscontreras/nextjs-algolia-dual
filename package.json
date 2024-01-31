@@ -14,6 +14,7 @@
     "@algolia/autocomplete-plugin-recent-searches": "^1.9.2",
     "@algolia/autocomplete-plugin-redirect-url": "^1.9.2",
     "@algolia/autocomplete-theme-classic": "^1.9.2",
+    "@img/sharp-libvips-linuxmusl-x64": "^1.0.1",
     "algoliasearch": "4.16.0",
     "autoprefixer": "^10.4.16",
     "install": "^0.13.0",
@@ -28,6 +29,7 @@
     "react-responsive-carousel": "^3.2.23",
     "sass": "^1.66.1",
     "search-insights": "^2.9.0",
+    "sharp": "^0.33.2",
     "styled-components": "^5.3.10",
     "tailwindcss": "^3.3.5",
     "vue-router": "^2.8.1"
