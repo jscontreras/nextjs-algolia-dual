@@ -18,7 +18,7 @@ export async function POST(req) {
   } catch (err){
     console.error(err);
     const product = await getProductInfo('M0E20000000EAAK');
-    return Response.json({ message: 'Hello World!', product });
+    return Response.json({ message: 'Hello World!', product }).status(200);
   }
 
 }

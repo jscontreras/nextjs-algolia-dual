@@ -17,14 +17,13 @@ export async function getServerSideProps({ query, req }) {
     method: 'POST',
     body,
     headers: {
-      "content-type": "text/html; charset=utf-8",
-      "origin": serverUrl,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(body),
     },
   });
   let product = {};
   try {
     product = await productPayload.json();
-    console.log('product', product)
   }
   catch (e) {
     console.error(e);
