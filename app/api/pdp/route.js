@@ -1,7 +1,9 @@
+import { get } from "https";
 import { getProductInfo } from "../../../lib/serverActions";
 
 export async function GET() {
-  return Response.json({ message: 'Hello World!' });
+  const product = await getProductInfo('M0E20000000EAAK');
+  return Response.json({ message: 'Hello World!', product });
 }
 
 /***

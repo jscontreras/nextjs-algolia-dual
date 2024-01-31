@@ -17,13 +17,19 @@ export async function getServerSideProps({ query, req }) {
     method: 'POST',
     body,
     headers: {
-      "content-type": "application/json",
+      "content-type": "text/html; charset=utf-8",
       "origin": serverUrl,
-      'Content-Length': body.length
     },
   });
+  let product = {};
+  try {
+    product = await productPayload.json();
+    console.log('product', product)
+  }
+  catch (e) {
+    console.error(e);
+  }
 
-  const product = await productPayload.json();
   return {
     props: {
       hit: product
@@ -112,7 +118,7 @@ function ProductDetailPage({ hit }) {
           </div>
           <div className="pdp-hit-pictures">
             <Carousel showArrows={true} showThumbs={true} axis={"horizontal"} centerMode="false" autoPlay={true} emulateTouch={true} onClickItem={handleClickAfterSearch} onClickThumb={handleClickAfterSearch}>
-              {hit.image_urls.filter(u => u.length ).map((url, index) => (
+              {hit.image_urls.filter(u => u.length).map((url, index) => (
                 <div key={index}>
                   <img src={url} alt={`Image ${index}`} />
                   <p className="legend">${hit.price.value}</p>
