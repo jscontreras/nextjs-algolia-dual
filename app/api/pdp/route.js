@@ -13,6 +13,5 @@ export async function GET(request) {
     const product = await getProductInfo("M0E20000000E2QT");
     return Response.json(product)
   }
-;
 }
 
