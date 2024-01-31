@@ -8,7 +8,7 @@ export async function getServerSideProps({ query }) {
   const objectId = products.pop();
 
   const index = searchClient.initIndex(searchConfig.recordsIndex);
-  // Adding 100ms as slow API
+  // Intentionally adding 50ms
   await new Promise(r => setTimeout(r, 50));
   const product = await index.getObject(objectId, {params: {slow:true}});
   console.log('>>>FETCHING PRODUCT PDP1', objectId);
