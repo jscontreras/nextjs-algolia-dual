@@ -14,7 +14,7 @@ export async function getServerSideProps({ query, req }) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'x-vercel-protection-bypass': process.env.VERCEL_BYPASS_HEADER || '',
+      'x-vercel-protection-bypass': process.env.VERCEL_AUTOMATION_BYPASS_SECRET ? process.env.VERCEL_AUTOMATION_BYPASS_SECRET : 'none',
     },
   });
   let product = {};
