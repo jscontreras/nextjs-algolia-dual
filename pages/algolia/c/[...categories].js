@@ -1,6 +1,5 @@
 import React from "react";
 import crypto from 'crypto';
-
 import { InstantSearchSSRProvider, getServerState } from 'react-instantsearch';
 import { renderToString } from 'react-dom/server';
 import { InstantSearchResults } from "../../../components/algolia/InstantSearchResults";
@@ -14,7 +13,6 @@ import { searchConfig } from "../../../lib/algoliaConfig";
  * @returns
  */
 export default function Category({ serverState, serverUrl, extraSearchParams, resolvedUrl }) {
-  console.log('<resolvedUrl>', resolvedUrl);
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
     router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions: {
@@ -58,13 +56,22 @@ export async function getServerSideProps({ req, query, res, resolvedUrl }) {
   const extraSearchParams = { filters: filters, userToken: clientUserToken };
   const serverState = await getServerState(<Category serverUrl={serverUrl} extraSearchParams={extraSearchParams} />, { renderToString });
 
+  const headers = {};
+  req.rawHeaders.forEach((header, index) => {
+    if (index % 2 == 0) {
+      if (header.startsWith('x') || header.startsWith('X'))
+      headers[header] = req.rawHeaders[index + 1];
+    }
+  });
+  console.log('headers', headers);
   return {
     props: {
       serverState,
       serverUrl,
       extraSearchParams,
       serverUrl,
-      resolvedUrl
+      resolvedUrl,
+      headers
     },
   };
 }

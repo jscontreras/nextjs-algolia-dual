@@ -23,6 +23,9 @@ dependencies:
   '@algolia/autocomplete-theme-classic':
     specifier: ^1.9.2
     version: 1.15.0
+  '@vercel/edge':
+    specifier: ^1.1.1
+    version: 1.1.1
   algoliasearch:
     specifier: 4.16.0
     version: 4.16.0
@@ -816,6 +819,10 @@ packages:
 
   /@types/qs@6.9.11:
     resolution: {integrity: sha512-oGk0gmhnEJK4Yyk+oI7EfXsLayXatCWPHary1MtcmbAifkobT9cM9yutG/hZKIseOU0MqbIwQ/u2nn/Gb+ltuQ==}
+    dev: false
+
+  /@vercel/edge@1.1.1:
+    resolution: {integrity: sha512-NtKiIbn9Cq6HWGy+qRudz28mz5nxfOJWls5Pnckjw1yCfSX8rhXdvY/il3Sy3Zd5n/sKCM2h7VSCCpJF/oaDrQ==}
     dev: false
 
   /@vue/compiler-sfc@2.7.16:
