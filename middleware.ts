@@ -3,7 +3,8 @@ import { geolocation, ipAddress } from '@vercel/edge';
 
 
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/catalog')) {
+  const reqPath = request.nextUrl.pathname;
+  if (reqPath.startsWith('/catalog')) {
 
     const host = process.env.PROXY_HOST;
 
@@ -17,8 +18,8 @@ export function middleware(request: NextRequest) {
       // add random header
       response.headers.set('X-hello', 'world');
 
-      // Forwarding context from Original Request.
-      if (country && region && city && ip) {
+      // Forwarding context from Original Request. (catalog/men/shoes/exception)
+      if (country && region && city && ip && reqPath.startsWith(`/catalog/men/shoes`)) {
         response.headers.set('X-Forwarded-Geo-Country', country);
         response.headers.set('X-Forwarded-Geo-Region', region);
         response.headers.set('X-Forwarded-Geo-City', city);

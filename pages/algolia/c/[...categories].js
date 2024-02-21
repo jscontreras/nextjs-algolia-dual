@@ -12,12 +12,14 @@ import { searchConfig } from "../../../lib/algoliaConfig";
  * Main Page Prototype.
  * @returns
  */
-export default function Category({ serverState, serverUrl, extraSearchParams, resolvedUrl }) {
+export default function Category({ serverState, serverUrl, extraSearchParams, city, ip }) {
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
-    router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl, routerOptions: {
-      cleanUrlOnDispose: false
-    } }),
+    router: createInstantSearchRouterNext({
+      singletonRouter, serverUrl: serverUrl, routerOptions: {
+        cleanUrlOnDispose: false
+      }
+    }),
   };
 
   return <div className="page_container">
@@ -30,6 +32,7 @@ export default function Category({ serverState, serverUrl, extraSearchParams, re
         extraSearchParams={extraSearchParams}
       />
     </InstantSearchSSRProvider>
+    <p>City: {city} IP: {ip}</p>
   </div>
 }
 
@@ -60,10 +63,10 @@ export async function getServerSideProps({ req, query, res, resolvedUrl }) {
   req.rawHeaders.forEach((header, index) => {
     if (index % 2 == 0) {
       if (header.startsWith('x') || header.startsWith('X'))
-      headers[header] = req.rawHeaders[index + 1];
+        headers[header] = req.rawHeaders[index + 1];
     }
   });
-  console.log('headers', headers);
+  console.log('headers', req.headers['x-nextjs-data']);
   return {
     props: {
       serverState,
@@ -71,7 +74,8 @@ export async function getServerSideProps({ req, query, res, resolvedUrl }) {
       extraSearchParams,
       serverUrl,
       resolvedUrl,
-      headers
+      city: req.headers['x-vercel-ip-city'] || '???',
+      ip: req.headers['x-real-ip'] || 'x.x.x.x',
     },
   };
 }
