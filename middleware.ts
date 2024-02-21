@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
       response.headers.set('X-hello', 'world');
 
       // Forwarding context from Original Request. (catalog/men/shoes/exception)
-      if (country && region && city && ip && reqPath.startsWith(`/catalog/men/shoes`)) {
+      if (country && region && city && ip && !reqPath.startsWith(`/catalog/men/shoes`)) {
         response.headers.set('X-Forwarded-Geo-Country', country);
         response.headers.set('X-Forwarded-Geo-Region', region);
         response.headers.set('X-Forwarded-Geo-City', city);

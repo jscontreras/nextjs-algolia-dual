@@ -66,7 +66,7 @@ export async function getServerSideProps({ req, query, res, resolvedUrl }) {
         headers[header] = req.rawHeaders[index + 1];
     }
   });
-  console.log('headers', req.headers['x-nextjs-data']);
+  console.log('headers', headers);
   return {
     props: {
       serverState,
