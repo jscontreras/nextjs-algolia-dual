@@ -14,8 +14,6 @@ import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
  * @returns
  */
 export default function SearchPage({ serverState, serverUrl, extraSearchParams, resolvedUrl }) {
-  console.log('<resolvedUrl>', resolvedUrl);
-
   const routing = {
     stateMapping: singleIndex(searchConfig.recordsIndex),
     router: createInstantSearchRouterNext({ singletonRouter, serverUrl: serverUrl }),
