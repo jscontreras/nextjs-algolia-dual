@@ -66,7 +66,6 @@ export const InstantSearchResults = ({ routing, extraSearchParams = {} }) => {
         // All requests should have clickAnalytics at this point
         if (requests[0].params && requests[0].params.analyticsTags) {
           return searchClient.search(requests).then((res) => {
-            console.log('****** [Moment Resolving Search Client]')
             resolve(res);
           });
         } else {
