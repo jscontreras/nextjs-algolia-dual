@@ -1,10 +1,8 @@
+import { useRouter } from 'next/router'
 // https://nextjs.org/docs/pages/api-reference/functions/use-router
 
-import { useRouter } from 'next/router'
 
-function ActiveLink({ children, href }) {
-  const router = useRouter();
-
+function ActiveLink({ children, href, router }) {
   const handleClick = (e) => {
     e.preventDefault()
     router.push(href)
