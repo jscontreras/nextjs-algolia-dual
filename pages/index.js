@@ -1,7 +1,5 @@
 import Link from 'next/link';
 import { searchConfig } from '../lib/algoliaConfig';
-import ActiveLink from '../components/links/ActiveLink';
-import ClientLink from '../components/links/Clientlink';
 import { useRouter } from 'next/router';
 
 
@@ -25,16 +23,6 @@ export default function Home() {
         <Link href="/algolia/c/women/bags">
           {`Women > Bags Category Page.`}
         </Link>
-      </li>
-      <li>
-        <ActiveLink href="/algolia/c/men/shoes" router={router}>
-          {`Men > shoes Category Page.`}
-        </ActiveLink>
-      </li>
-      <li>
-        <ClientLink href="/algolia/c/women/shoes" router={router}>
-          {`Women > shoes Category Page.`}
-        </ClientLink>
       </li>
     </ol>
   </div>

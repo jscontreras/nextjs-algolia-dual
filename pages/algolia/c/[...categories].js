@@ -7,9 +7,7 @@ import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-router-nextjs';
 import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
 import { searchConfig } from "../../../lib/algoliaConfig";
-import ClientLink from "../../../components/links/Clientlink";
 import Link from "next/link";
-import ActiveLink from "../../../components/links/ActiveLink";
 
 /**
  * Main Page Prototype.
@@ -46,16 +44,6 @@ export default function Category({ serverState, serverUrl, extraSearchParams, ci
         <Link href="/algolia/c/women/bags">
           {`Women > Bags Category Page.`}
         </Link>
-      </li>
-      <li>
-        <ActiveLink href="/algolia/c/men/shoes" router={singletonRouter}>
-          {`Men > shoes Category Page.`}
-        </ActiveLink>
-      </li>
-      <li>
-        <ClientLink href="/algolia/c/women/shoes" router={singletonRouter}>
-          {`Women > shoes Category Page.`}
-        </ClientLink>
       </li>
     </ol>
   </div>
