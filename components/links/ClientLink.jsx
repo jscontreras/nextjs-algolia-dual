@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import singletonRouter from 'next/router';
 
-function ClientLink({children, href, router}) {
+function ClientLink({children, href}) {
+  const router = singletonRouter;
   const linkRef = useRef(null); // Create a ref for the button
 
   useEffect(() => {

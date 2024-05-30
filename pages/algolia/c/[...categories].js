@@ -48,12 +48,12 @@ export default function Category({ serverState, serverUrl, extraSearchParams, ci
         </Link>
       </li>
       <li>
-        <ActiveLink href="/algolia/c/men/shoes" router={singletonRouter}>
+        <ActiveLink href="/algolia/c/men/shoes" >
           {`Men > shoes Category Page.`}
         </ActiveLink>
       </li>
       <li>
-        <ClientLink href="/algolia/c/women/shoes" router={singletonRouter}>
+        <ClientLink href="/algolia/c/women/shoes">
           {`Women > shoes Category Page.`}
         </ClientLink>
       </li>

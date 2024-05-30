@@ -32,7 +32,7 @@ export default function Home() {
         </ActiveLink>
       </li>
       <li>
-        <ClientLink href="/algolia/c/women/shoes" router={router}>
+        <ClientLink href="/algolia/c/women/shoes">
           {`Women > shoes Category Page.`}
         </ClientLink>
       </li>
