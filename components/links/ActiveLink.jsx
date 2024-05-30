@@ -3,7 +3,7 @@ import singletonRouter from 'next/router';
 // https://nextjs.org/docs/pages/api-reference/functions/use-router
 
 
-function ActiveLink({ children, href }) {
+export function ActiveLink({ children, href }) {
   const router = singletonRouter;
   const handleClick = (e) => {
     e.preventDefault()
@@ -16,5 +16,3 @@ function ActiveLink({ children, href }) {
     </a>
   )
 }
-
-export default ActiveLink

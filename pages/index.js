@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { searchConfig } from '../lib/algoliaConfig';
 
 import { useRouter } from 'next/router';
-import ActiveLink from '../components/links/ActiveLink';
-import ClientLink from '../components/links/Clientlink';
+import { ClientLink } from '../components/links/Clientlink';
+import { ActiveLink } from '../components/links/ActiveLink';
 
 export default function Home() {
   const router = useRouter();

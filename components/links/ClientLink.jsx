@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import singletonRouter from 'next/router';
 
-function ClientLink({children, href}) {
+export function ClientLink({children, href}) {
   const router = singletonRouter;
   const linkRef = useRef(null); // Create a ref for the button
 
@@ -32,5 +32,3 @@ function ClientLink({children, href}) {
     </a>
   )
 }
-
-export default ClientLink;
