@@ -7,8 +7,8 @@ import singletonRouter from 'next/router';
 import { createInstantSearchRouterNext } from 'react-instantsearch-router-nextjs';
 import { singleIndex } from 'instantsearch.js/es/lib/stateMappings';
 import { searchConfig } from "../../../lib/algoliaConfig";
-import ClientLink from "../../../components/links/Clientlink";
 import Link from "next/link";
+import ClientLink from "../../../components/links/Clientlink";
 import ActiveLink from "../../../components/links/ActiveLink";
 
 /**
