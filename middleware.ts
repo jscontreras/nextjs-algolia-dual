@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { geolocation, ipAddress } from '@vercel/edge';
 
+const globalMap: Map<string, any> = new Map();
+
 
 export function middleware(request: NextRequest) {
   const reqPath = request.nextUrl.pathname;
