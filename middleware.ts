@@ -7,12 +7,12 @@ const globalMap: Map<string, any> = new Map();
 export function middleware(request: NextRequest) {
   const reqPath = request.nextUrl.pathname;
   if (reqPath.startsWith('/catalog')) {
-
-    const host = process.env.PROXY_HOST;
-
+    const host = process.env.PROXY_HOST || `${request.nextUrl.protocol}//${request.nextUrl.host}`;
     const { country, region, city } = geolocation(request);
     const ip = ipAddress(request);
     let p = request.nextUrl.pathname.replace('/catalog', '/algolia/c');
+    globalMap.set(reqPath, p);
+
     let newUrl = new URL(p, request.url);
     // if (host && !host.includes(request.nextUrl.host)) {
     if (host) {
