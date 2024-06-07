@@ -79,7 +79,7 @@ export async function getServerSideProps({ req, query, res, resolvedUrl }) {
         headers[header] = req.rawHeaders[index + 1];
     }
   });
-  console.log('headers', headers);
+  // console.log('headers', headers);
   return {
     props: {
       serverState,
